@@ -490,93 +490,89 @@ static void add_dispatchers() {
     HyprlandAPI::addDispatcherV2(PHANDLE, "hyprtasking:setlayerwindow", dispatch_setlayerwindow);
 }
 
+static bool add_config_value_compat(const std::string& name, const Hyprlang::CConfigValue& value) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    const bool ok = HyprlandAPI::addConfigValue(PHANDLE, name, value);
+#pragma GCC diagnostic pop
+    return ok;
+}
+
 static void init_config() {
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:layout", Hyprlang::STRING {"grid"});
+    add_config_value_compat("plugin:hyprtasking:layout", Hyprlang::STRING {"grid"});
 
     // general
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:bg_color", Hyprlang::INT {0x000000FF});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:gap_size", Hyprlang::FLOAT {8.f});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:border_size", Hyprlang::FLOAT {4.f});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:exit_on_hovered", Hyprlang::INT {0});
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat("plugin:hyprtasking:bg_color", Hyprlang::INT {0x000000FF});
+    add_config_value_compat("plugin:hyprtasking:gap_size", Hyprlang::FLOAT {8.f});
+    add_config_value_compat("plugin:hyprtasking:border_size", Hyprlang::FLOAT {4.f});
+    add_config_value_compat("plugin:hyprtasking:exit_on_hovered", Hyprlang::INT {0});
+    add_config_value_compat(
         "plugin:hyprtasking:warp_on_move_window",
         Hyprlang::INT {1}
     );
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:close_overview_on_reload",
         Hyprlang::INT {1}
     );
 
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:drag_button",
         Hyprlang::INT {BTN_LEFT}
     );
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:select_button",
         Hyprlang::INT {BTN_RIGHT}
     );
 
     // swipe
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:gestures:enabled", Hyprlang::INT {1});
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat("plugin:hyprtasking:gestures:enabled", Hyprlang::INT {1});
+    add_config_value_compat(
         "plugin:hyprtasking:gestures:move_fingers",
         Hyprlang::INT {3}
     );
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:gestures:move_distance",
         Hyprlang::FLOAT {300.0}
     );
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:gestures:open_fingers",
         Hyprlang::INT {4}
     );
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:gestures:open_distance",
         Hyprlang::FLOAT {300.0}
     );
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:gestures:open_positive",
         Hyprlang::INT {1}
     );
 
     // grid specific
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:grid:rows", Hyprlang::INT {3});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:grid:cols", Hyprlang::INT {3});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:grid:layers", Hyprlang::INT {1});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:grid:loop_layers", Hyprlang::INT {1});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:grid:loop", Hyprlang::INT {0});
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat("plugin:hyprtasking:grid:rows", Hyprlang::INT {3});
+    add_config_value_compat("plugin:hyprtasking:grid:cols", Hyprlang::INT {3});
+    add_config_value_compat("plugin:hyprtasking:grid:layers", Hyprlang::INT {1});
+    add_config_value_compat("plugin:hyprtasking:grid:loop_layers", Hyprlang::INT {1});
+    add_config_value_compat("plugin:hyprtasking:grid:loop", Hyprlang::INT {0});
+    add_config_value_compat(
         "plugin:hyprtasking:grid:gaps_use_aspect_ratio",
         Hyprlang::INT {0}
     );
 
     //linear specifig
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:linear:blur", Hyprlang::INT {1});
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat("plugin:hyprtasking:linear:blur", Hyprlang::INT {1});
+    add_config_value_compat(
         "plugin:hyprtasking:linear:height",
         Hyprlang::FLOAT {300.f}
     );
-    HyprlandAPI::addConfigValue(
-        PHANDLE,
+    add_config_value_compat(
         "plugin:hyprtasking:linear:scroll_speed",
         Hyprlang::FLOAT {1.f}
     );
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:linear:top", Hyprlang::INT {0});
+    add_config_value_compat("plugin:hyprtasking:linear:top", Hyprlang::INT {0});
 
     // Old config value, warning about updates
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:rows", Hyprlang::INT {-1});
-    HyprlandAPI::addConfigValue(PHANDLE, "plugin:hyprtasking:exit_behavior", Hyprlang::STRING {""});
+    add_config_value_compat("plugin:hyprtasking:rows", Hyprlang::INT {-1});
+    add_config_value_compat("plugin:hyprtasking:exit_behavior", Hyprlang::STRING {""});
 
     HyprlandAPI::reloadConfig();
 }
