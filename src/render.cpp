@@ -26,9 +26,9 @@ void render_window_at_box(PHLWINDOW window, PHLMONITOR monitor, const Time::stea
         (monitor->m_position - window->m_realPosition->value() + box.pos() / scale)
         * monitor->m_scale;
 
-    SRenderModifData data {};
-    data.modifs.push_back({SRenderModifData::eRenderModifType::RMOD_TYPE_TRANSLATE, transform});
-    data.modifs.push_back({SRenderModifData::eRenderModifType::RMOD_TYPE_SCALE, scale});
+    Render::SRenderModifData data {};
+    data.modifs.push_back({Render::SRenderModifData::eRenderModifType::RMOD_TYPE_TRANSLATE, transform});
+    data.modifs.push_back({Render::SRenderModifData::eRenderModifType::RMOD_TYPE_SCALE, scale});
     g_pHyprRenderer->m_renderPass.add(
         makeUnique<CRendererHintsPassElement>(CRendererHintsPassElement::SData {data})
     );
@@ -40,12 +40,12 @@ void render_window_at_box(PHLWINDOW window, PHLMONITOR monitor, const Time::stea
         monitor,
         time,
         true,
-        RENDER_PASS_MAIN,
+        Render::RENDER_PASS_MAIN,
         false,
         true
     );
 
     g_pHyprRenderer->m_renderPass.add(makeUnique<CRendererHintsPassElement>(
-        CRendererHintsPassElement::SData {SRenderModifData {}}
+        CRendererHintsPassElement::SData {Render::SRenderModifData {}}
     ));
 }

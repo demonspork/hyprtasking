@@ -3,6 +3,7 @@
 #include <hyprland/src/Compositor.hpp>
 #include <hyprland/src/desktop/DesktopTypes.hpp>
 #include <hyprland/src/render/Renderer.hpp>
+#include <hyprland/src/render/types.hpp>
 #include <hyprutils/math/Box.hpp>
 typedef void (*render_workspace_t)(
     void* thisptr,
@@ -19,7 +20,7 @@ typedef void (*render_window_t)(
     PHLMONITOR pMonitor,
     const Time::steady_tp& time,
     bool decorate,
-    eRenderPassMode mode,
+    Render::eRenderPassMode mode,
     bool ignorePosition,
     bool standalone
 );

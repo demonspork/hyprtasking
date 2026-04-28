@@ -3,6 +3,8 @@
 #include <hyprland/src/Compositor.hpp>
 #include <hyprland/src/config/ConfigManager.hpp>
 #include <hyprland/src/config/ConfigValue.hpp>
+#include <hyprland/src/config/shared/animation/AnimationTree.hpp>
+#include <hyprland/src/config/shared/complex/ComplexDataTypes.hpp>
 #include <hyprland/src/desktop/DesktopTypes.hpp>
 #include <hyprland/src/helpers/AnimatedVariable.hpp>
 #include <hyprland/src/managers/animation/AnimationManager.hpp>
@@ -29,13 +31,13 @@ HTLayoutGrid::HTLayoutGrid(VIEWID new_view_id) : HTLayoutBase(new_view_id) {
     g_pAnimationManager->createAnimation(
         {0, 0},
         offset,
-        g_pConfigManager->getAnimationPropertyConfig("workspaces"),
+        Config::animationTree()->getAnimationPropertyConfig("workspaces"),
         AVARDAMAGE_NONE
     );
     g_pAnimationManager->createAnimation(
         1.f,
         scale,
-        g_pConfigManager->getAnimationPropertyConfig("workspaces"),
+        Config::animationTree()->getAnimationPropertyConfig("workspaces"),
         AVARDAMAGE_NONE
     );
 
@@ -336,8 +338,8 @@ void HTLayoutGrid::render() {
     static auto PACTIVECOL = CConfigValue<Hyprlang::CUSTOMTYPE>("general:col.active_border");
     static auto PINACTIVECOL = CConfigValue<Hyprlang::CUSTOMTYPE>("general:col.inactive_border");
 
-    auto* const ACTIVECOL = (CGradientValueData*)(PACTIVECOL.ptr())->getData();
-    auto* const INACTIVECOL = (CGradientValueData*)(PINACTIVECOL.ptr())->getData();
+    auto* const ACTIVECOL = (Config::CGradientValueData*)(PACTIVECOL.ptr())->getData();
+    auto* const INACTIVECOL = (Config::CGradientValueData*)(PINACTIVECOL.ptr())->getData();
 
     const float BORDERSIZE = HTConfig::value<Hyprlang::FLOAT>("border_size");
 
@@ -345,7 +347,7 @@ void HTLayoutGrid::render() {
 
 
     g_pHyprRenderer->damageMonitor(monitor);
-    g_pHyprOpenGL->m_renderData.pCurrentMonData->blurFBShouldRender = true;
+    g_pHyprRenderer->m_renderData.pMonitor->m_blurFBShouldRender = true;
     CBox monitor_box = {{0, 0}, monitor->m_transformedSize};
 
     CRectPassElement::SRectData data;
@@ -390,7 +392,7 @@ void HTLayoutGrid::render() {
         if (global_box.expand(BORDERSIZE).intersection(global_mon_box).empty())
             continue;
 
-        const CGradientValueData border_col =
+        const Config::CGradientValueData border_col =
             monitor->m_activeWorkspace->m_id == ws_id ? *ACTIVECOL : *INACTIVECOL;
         CBox border_box = ws_layout.box;
 
@@ -457,7 +459,7 @@ void HTLayoutGrid::render() {
             if (monitor->m_transform % 2 == 1)
                 std::swap(render_box.w, render_box.h);
 
-            const CGradientValueData border_col =
+            const Config::CGradientValueData border_col =
                 monitor->m_activeWorkspace->m_id == start_workspace->m_id ? *ACTIVECOL
                                                                           : *INACTIVECOL;
             CBox border_box = ws_box;
