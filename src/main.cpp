@@ -3,6 +3,7 @@
 #include <hyprland/src/Compositor.hpp>
 #include <hyprland/src/SharedDefs.hpp>
 #include <hyprland/src/desktop/DesktopTypes.hpp>
+#include <hyprland/src/desktop/view/Window.hpp>
 #include <hyprland/src/devices/IKeyboard.hpp>
 #include <hyprland/src/helpers/Monitor.hpp>
 #include <hyprland/src/macros.hpp>
@@ -18,6 +19,7 @@
 #include <hyprlang.hpp>
 #include <hyprutils/math/Box.hpp>
 #include <hyprutils/math/Vector2D.hpp>
+#include <hyprutils/string/VarList.hpp>
 
 #include "config.hpp"
 #include "globals.hpp"
@@ -233,7 +235,7 @@ static SDispatchResult dispatch_kill_hover(std::string arg) {
     const PHLWINDOW hovered_window = ht_manager->get_window_from_cursor(!cursor_view->active);
     if (hovered_window == nullptr)
         return {.success = false, .error = "hovered_window is null"};
-    g_pCompositor->closeWindow(hovered_window);
+    hovered_window->sendClose();
     return {};
 }
 
@@ -351,7 +353,7 @@ static void notify_config_changes() {
         );
     }
 
-    CVarList exit_behavior {HTConfig::value<Hyprlang::STRING>("exit_behavior"), 0, 's', true};
+    Hyprutils::String::CVarList exit_behavior {HTConfig::value<Hyprlang::STRING>("exit_behavior"), 0, 's', true};
     if (exit_behavior.size() != 0) {
         HyprlandAPI::addNotification(
             PHANDLE,
