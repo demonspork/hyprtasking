@@ -235,7 +235,7 @@ static SDispatchResult dispatch_kill_hover(std::string arg) {
     const PHLWINDOW hovered_window = ht_manager->get_window_from_cursor(!cursor_view->active);
     if (hovered_window == nullptr)
         return {.success = false, .error = "hovered_window is null"};
-    hovered_window->sendClose();
+    g_pCompositor->closeWindow(hovered_window);
     return {};
 }
 

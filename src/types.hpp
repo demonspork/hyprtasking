@@ -19,7 +19,7 @@ typedef void (*render_window_t)(
     PHLMONITOR pMonitor,
     const Time::steady_tp& time,
     bool decorate,
-    Render::eRenderPassMode mode,
+    eRenderPassMode mode,
     bool ignorePosition,
     bool standalone
 );
