@@ -4,8 +4,8 @@ HTPassElement::HTPassElement() {
     ;
 }
 
-std::vector<UP<IPassElement>> HTPassElement::draw() {
-    return {};
+void HTPassElement::draw(const CRegion& damage) {
+    ;
 }
 
 bool HTPassElement::needsLiveBlur() {

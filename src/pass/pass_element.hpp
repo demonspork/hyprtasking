@@ -7,14 +7,10 @@ class HTPassElement: public IPassElement {
     HTPassElement();
     virtual ~HTPassElement() = default;
 
-  virtual std::vector<UP<IPassElement>> draw();
+    virtual void draw(const CRegion& damage);
     virtual bool needsLiveBlur();
     virtual bool needsPrecomputeBlur();
     virtual bool disableSimplification();
-
-  virtual ePassElementType type() {
-    return EK_CUSTOM;
-  }
 
     virtual const char* passName() {
         return "HTDisableSimplification";
