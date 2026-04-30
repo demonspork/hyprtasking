@@ -345,7 +345,7 @@ void HTLayoutGrid::render() {
 
 
     g_pHyprRenderer->damageMonitor(monitor);
-    g_pHyprRenderer->m_renderData.pMonitor->m_blurFBShouldRender = true;
+    g_pHyprOpenGL->m_renderData.pCurrentMonData->blurFBShouldRender = true;
     CBox monitor_box = {{0, 0}, monitor->m_transformedSize};
 
     CRectPassElement::SRectData data;

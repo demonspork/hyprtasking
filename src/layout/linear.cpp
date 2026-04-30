@@ -323,7 +323,7 @@ void HTLayoutLinear::render() {
 
 
     g_pHyprRenderer->damageMonitor(monitor);
-    g_pHyprRenderer->m_renderData.pMonitor->m_blurFBShouldRender = true;
+    g_pHyprOpenGL->m_renderData.pCurrentMonData->blurFBShouldRender = true;
 
     // Do a dance with active workspaces: Hyprland will only properly render the
     // current active one so make the workspace active before rendering it, etc
