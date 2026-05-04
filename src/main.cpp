@@ -272,16 +272,20 @@ static bool hook_should_render_window(void* thisptr, PHLWINDOW window, PHLMONITO
 }
 
 static uint32_t hook_is_solitary_blocked(void* thisptr, bool full) {
+    const auto orig = (origIsSolitaryBlocked)is_solitary_blocked_hook->m_original;
+    if (ht_manager == nullptr)
+        return (*orig)(thisptr, full);
+
     PHTVIEW view = ht_manager->get_view_from_cursor();
     if (view == nullptr) {
         Log::logger->log(Log::ERR, "[Hyprtasking] View is nullptr in hook_is_solitary_blocked");
-        (*(origIsSolitaryBlocked)is_solitary_blocked_hook->m_original)(thisptr, full);
+        return (*orig)(thisptr, full);
     }
 
     if (view->active || view->navigating) {
         return CMonitor::SC_UNKNOWN;
     }
-    return (*(origIsSolitaryBlocked)is_solitary_blocked_hook->m_original)(thisptr, full);
+    return (*orig)(thisptr, full);
 }
 
 static void on_mouse_button(IPointer::SButtonEvent e, Event::SCallbackInfo& info) {
